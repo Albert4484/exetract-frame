@@ -39,13 +39,18 @@ void app_extractFrame::extractFrames(const std::string& videoPath, const std::st
     int count = 0;
     int savedCount = 0;
 
+    // 获取视频文件名并替换扩展名中的'.'
+    std::string filename = std::filesystem::path(videoPath).filename().string();
+    std::string outputFilename = filename;
+    std::replace(outputFilename.begin(), outputFilename.end(), '.', '_');
+
     while (true) {
         if (!cap.read(frame)) {
             break;  // 读取结束
         }
 
         if (count % frameInterval == 0) {
-            std::string outputPath = outputFolder + "/" + std::filesystem::path(videoPath).filename().string() + "_frame_" + std::to_string(savedCount) + ".jpg";
+            std::string outputPath = outputFolder + "/" + outputFilename + "_frame_" + std::to_string(savedCount) + ".jpg";
             cv::imwrite(outputPath, frame);
             savedCount++;
         }
@@ -60,7 +65,7 @@ void app_extractFrame::extractFrames(const std::string& videoPath, const std::st
 void app_extractFrame::processVideos(void) {
     std::filesystem::create_directories(outputFolder);  // 创建输出目录
 
-    for (const auto& entry : std::filesystem::directory_iterator(inputFolder)) {
+    for (const auto& entry : std::filesystem::recursive_directory_iterator(inputFolder)) {
         if (entry.is_regular_file() && (entry.path().extension() == ".mp4" || entry.path().extension() == ".avi" || entry.path().extension() == ".mov" || entry.path().extension() == ".mkv")) {
             extractFrames(entry.path().string(), outputFolder, interval);
         }
