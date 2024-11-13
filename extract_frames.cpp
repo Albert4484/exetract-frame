@@ -58,9 +58,14 @@ void app_extractFrame::extractFrames(const std::string& videoPath, const std::st
 }
 
 void app_extractFrame::processVideos(void) {
+    std::cout << "Input folder: " << inputFolder << std::endl;  //视频输入文件夹路径
+    std::cout << "Output folder: " << outputFolder << std::endl;//图片输出文件夹路径
+    std::cout << "Frame interval: " << interval << " seconds" << std::endl;//抽帧间隔
+    std::cout << "Processing videos..." << std::endl;//处理视频
+
     std::filesystem::create_directories(outputFolder);  // 创建输出目录
 
-    for (const auto& entry : std::filesystem::directory_iterator(inputFolder)) {
+    for (const auto& entry : std::filesystem::recursive_directory_iterator(inputFolder)) {
         if (entry.is_regular_file() && (entry.path().extension() == ".mp4" || entry.path().extension() == ".avi" || entry.path().extension() == ".mov" || entry.path().extension() == ".mkv")) {
             extractFrames(entry.path().string(), outputFolder, interval);
         }
@@ -71,6 +76,8 @@ void app_extractFrame::processVideos(void) {
 
 
 int main(int argc, char** argv) {
+    // std::cout <<"Video I/0:"<<cv::getBuildInformation()<< std::endl; // 输出OpenCV编译信息
+
     std::string inputFolder;  // 视频文件夹路径
     std::string outputFolder;  // 你希望保存帧的文件夹
     double interval = 10.0;     // 抽帧间隔（单位：秒）
@@ -80,11 +87,10 @@ int main(int argc, char** argv) {
         interval = std::stod(argv[3]);  // 抽帧间隔（单位：秒）
     }
     else if (argc == 1) {
-        inputFolder  = "/home/myfolder/opencv_program/test1/Video";  // 视频文件夹路径
-        outputFolder = "./FrameWork";  // 替换为你希望保存帧的文件夹
+        inputFolder  = ".\\Video";  // 视频文件夹路径
+        outputFolder = ".\\FrameWork";  // 替换为你希望保存帧的文件夹
         interval = 5;  // 抽帧间隔（单位：秒）
     }
-
 
     app_extractFrame app(inputFolder, outputFolder, interval);
     

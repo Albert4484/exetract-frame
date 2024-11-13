@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/home/myfolder/opencv_program/tools/video_extractFrames/build",
-  "command": "/usr/bin/g++  -isystem /usr/include/opencv4 -g -std=gnu++17 -o CMakeFiles/extract_frames.dir/extract_frames.cpp.o -c /home/myfolder/opencv_program/tools/video_extractFrames/extract_frames.cpp",
-  "file": "/home/myfolder/opencv_program/tools/video_extractFrames/extract_frames.cpp",
-  "output": "CMakeFiles/extract_frames.dir/extract_frames.cpp.o"
-}
-]

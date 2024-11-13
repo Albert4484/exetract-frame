@@ -31,7 +31,15 @@
 *.out
 *.app
 
+# Video and Image
+*.jpg
+*.jpeg
+*.mp4
+*.avi
+*.flv
+
 
 build/
-/
+.vscode/
 Video/
+FrameWork/
